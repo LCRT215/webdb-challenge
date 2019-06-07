@@ -1,23 +1,4 @@
-const express = require("express");
-const helmet = require("helmet");
-const knex = require("knex");
-const knexConfig = require("./knexfile");
-
-const db = knex(knexConfig.development);
-
-const server = express();
-
-server.use(helmet());
-server.use(express.json());
-
-server.get("/projects", async (req, res) => {
-  try {
-    const projects = await db("projects");
-    res.status(200).json(projects);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
+const server = require("./api/server");
 
 const port = process.env.PORT || 6000;
 server.listen(port, () =>
