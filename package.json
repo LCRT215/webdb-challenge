@@ -1,0 +1,17 @@
+{
+  "name": "webdb-challenge",
+  "version": "1.0.0",
+  "description": "Sprint challenge",
+  "main": "index.js",
+  "repository": "https://github.com/LCRT215/webdb-challenge.git",
+  "author": "Leslie Thompson",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "helmet": "^3.18.0",
+    "knex": "^0.17.3",
+    "node": "^12.4.0",
+    "nodemon": "^1.19.1",
+    "sqlite3": "^4.0.8"
+  }
+}
