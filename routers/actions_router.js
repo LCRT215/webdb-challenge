@@ -1,30 +1,19 @@
 const router = require("express").Router();
 
-const db = require("../models/projects_model.js");
+const db = require("../models/actions_model");
 
 //ACTION ENDPOINTS
-router.get("/actions", async (req, res) => {
-  try {
-    const actions = await db("actions");
-    res.status(200).json(actions);
-  } catch (error) {
-    res.status(500).json(error);
-  }
+
+router.get("/", (req, res) => {
+  db.get()
+    .then(projects => res.status(200).json(projects))
+    .catch(err => res.status(500).json(err));
 });
 
-router.post("/actions", async (req, res) => {
-  try {
-    const [id] = await db("actions").insert(req.body);
-
-    const action = await db("actions")
-      .where({ id })
-      .first();
-
-    res.status(201).json(action);
-  } catch (error) {
-    const message = errors[error.errno] || "We ran into an error";
-    res.status(500).json({ message, error });
-  }
+router.post("/actions", (req, res) => {
+  db.getWithId(req.params.id)
+    .then(project => res.status(200).json(project))
+    .catch(res.status(500).json({ message: "no action found with that id" }));
 });
 
 module.exports = router;

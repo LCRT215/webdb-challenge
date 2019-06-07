@@ -10,48 +10,23 @@ router.get("/", (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
-// server.get("/projects/:id", async (req, res) => {
-//   try {
-//     const project = await db("projects")
-//       .where({ id: req.params.id })
-//       .first();
-//     res.status(200).json(project);
-//   } catch (error) {
-//     res.status(500).json(error);
-//   }
-// });
+router.get("/:id", (req, res) => {
+  db.getWithId(req.params.id)
+    .then(project => res.status(200).json(project))
+    .catch(res.status(500).json({ message: "no project found with that id" }));
+});
 
-// server.post("/projects", async (req, res) => {
-//   try {
-//     const [id] = await db("projects").insert(req.body);
-
-//     const project = await db("projects")
-//       .where({ id })
-//       .first();
-
-//     res.status(201).json(project);
-//   } catch (error) {
-//     const message = errors[error.errno] || "We ran into an error";
-//     res.status(500).json({ message, error });
-//   }
-// });
-
-// server.put("/projects/:id", async (req, res) => {
-//   try {
-//     const count = await db("projects")
-//       .where({ id: req.params.id })
-//       .update(req.body);
-
-//     if (count > 0) {
-//       const project = await db("projects")
-//         .where({ id: req.params.id })
-//         .first();
-
-//       res.status(200).json(project);
-//     } else {
-//       res.status(404).json({ message: "Project not found" });
-//     }
-//   } catch (error) {}
-// });
-
+router.post("/", (req, res) => {
+  const { name } = req.body;
+  if (name) {
+    db.add(req.body, "project").then(project => {
+      res
+        .status(201)
+        .json(project)
+        .catch(res.status(500).json({ message: "error adding project" }));
+    });
+  } else {
+    res.status(400).json({ message: "name is not unique" });
+  }
+});
 module.exports = router;
