@@ -11,10 +11,12 @@ router.get("/", (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-  db.getWithId(req.params.id)
+  db.getById(req.params.id)
     .then(project => {
       if (project) {
-        res.status(200).json(project);
+        db.getProjectWithActions(req.params.id).then(action => {
+          res.status(200).json({ ...project, action });
+        });
       } else {
         res.status(404).json({ message: "no project found with that id" });
       }
