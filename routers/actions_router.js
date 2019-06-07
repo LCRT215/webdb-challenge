@@ -10,10 +10,26 @@ router.get("/", (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
-router.post("/actions", (req, res) => {
+router.get("/:id", (req, res) => {
   db.getWithId(req.params.id)
-    .then(project => res.status(200).json(project))
-    .catch(res.status(500).json({ message: "no action found with that id" }));
+    .then(action => {
+      if (action) {
+        res.status(200).json(action);
+      } else {
+        res.status(404).json({ message: "no action found with that id" });
+      }
+    })
+    .catch(error => {
+      res.status(500).json(error);
+    });
 });
 
+router.post("/", (req, res) => {
+  db.add(req.body).then(action => {
+    res
+      .status(201)
+      .json(action)
+      .catch(res.status(500).json({ message: "error adding project" }));
+  });
+});
 module.exports = router;
