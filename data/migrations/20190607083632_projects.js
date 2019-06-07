@@ -7,7 +7,9 @@ exports.up = function(knex, Promise) {
       .string("name", 128)
       .notNullable()
       .unique();
+    //description
     tbl.string("description", 400);
+    //completed
     tbl
       .boolean("completed")
       .notNullable()
