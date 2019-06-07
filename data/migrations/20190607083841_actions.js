@@ -3,7 +3,6 @@ exports.up = function(knex, Promise) {
     //id
     tbl.increments().unique();
     //description
-    tbl;
     tbl.string("description", 200).notNullable();
     //notes
     tbl.string("notes", 400).notNullable();

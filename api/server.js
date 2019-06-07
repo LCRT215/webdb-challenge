@@ -10,6 +10,7 @@ const server = express();
 server.use(helmet());
 server.use(express.json());
 
+//PROJECT ENDPOINTS
 server.get("/projects", async (req, res) => {
   try {
     const projects = await db("projects");
@@ -42,6 +43,16 @@ server.post("/projects", async (req, res) => {
   } catch (error) {
     const message = errors[error.errno] || "We ran into an error";
     res.status(500).json({ message, error });
+  }
+});
+
+//ACTION ENDPOINTS
+server.get("/actions", async (req, res) => {
+  try {
+    const actions = await db("actions");
+    res.status(200).json(actions);
+  } catch (error) {
+    res.status(500).json(error);
   }
 });
 
